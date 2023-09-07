@@ -63,7 +63,6 @@ class OpenAISDKTest extends TestCase
     ): OpenAIHTTPClient {
         return new OpenAIHTTPClient(
             apiKey: 'api_key',
-            organizationID: 'organization_id',
             config: [
                 'handler' => HandlerStack::create(
                     new MockHandler([new Response($status, $headers, $body)])

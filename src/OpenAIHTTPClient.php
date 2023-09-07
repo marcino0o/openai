@@ -16,7 +16,7 @@ class OpenAIHTTPClient extends Client
 {
     private const API_URL = 'https://api.openai.com/';
 
-    public function __construct(string $apiKey, string $organizationID, array $config = [])
+    public function __construct(string $apiKey, array $config = [])
     {
         parent::__construct(
             array_merge(
