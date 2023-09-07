@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use RWS\Openai\Chat\ChatCompletionResponse;
 use RWS\Openai\Chat\Message;
 use RWS\Openai\Chat\Messages;
-use RWS\Openai\Configuration;
 use RWS\Openai\OpenAIHTTPClient;
 use RWS\Openai\OpenAISDK;
 
@@ -62,15 +61,14 @@ class OpenAISDKTest extends TestCase
         int $status = 200,
         array $headers = []
     ): OpenAIHTTPClient {
-        $mock = new MockHandler([
-            new Response($status, $headers, $body),
-        ]);
-
-        $handlerStack = HandlerStack::create($mock);
-
         return new OpenAIHTTPClient(
-            new Configuration('api_key', 'organization_id'),
-            ['handler' => $handlerStack]
+            apiKey: 'api_key',
+            organizationID: 'organization_id',
+            config: [
+                'handler' => HandlerStack::create(
+                    new MockHandler([new Response($status, $headers, $body)])
+                ),
+            ]
         );
     }
 }

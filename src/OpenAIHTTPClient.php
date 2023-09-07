@@ -16,7 +16,7 @@ class OpenAIHTTPClient extends Client
 {
     private const API_URL = 'https://api.openai.com/';
 
-    public function __construct(Configuration $configuration, array $config = [])
+    public function __construct(string $apiKey, string $organizationID, array $config = [])
     {
         parent::__construct(
             array_merge(
@@ -25,7 +25,7 @@ class OpenAIHTTPClient extends Client
                     'base_uri' => self::API_URL,
                     'headers' => [
                         'Content-Type' => 'application/json',
-                        'Authorization' => sprintf('Bearer %s', $configuration->apiKey),
+                        'Authorization' => sprintf('Bearer %s', $apiKey),
                     ],
                 ]
             )
