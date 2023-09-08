@@ -24,7 +24,6 @@ class OpenAIHTTPClient extends Client
                 [
                     'base_uri' => self::API_URL,
                     'headers' => [
-                        'Content-Type' => 'application/json',
                         'Authorization' => sprintf('Bearer %s', $apiKey),
                     ],
                 ]
@@ -37,10 +36,10 @@ class OpenAIHTTPClient extends Client
      * @throws LimitExceededException
      * @throws OpenAIClientException
      */
-    public function postJson($uri, array $body, array $options = []): ResponseInterface
+    public function postData($uri, array $body, string $contentType = 'json', array $options = []): ResponseInterface
     {
         try {
-            return $this->post($uri, array_merge(['json' => $body], $options));
+            return $this->post($uri, array_merge([$contentType => $body], $options));
         } catch (ClientException $e) {
             throw match ($e->getResponse()->getStatusCode()) {
                 429 => LimitExceededException::fromPrevious($e),

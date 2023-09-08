@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RWS\Openai;
 
+use GuzzleHttp\Psr7\Utils;
+use RWS\Openai\Audio\TranscriptionResponse;
 use RWS\Openai\Chat\ChatCompletionResponse;
 use RWS\Openai\Chat\Message;
 use RWS\Openai\Chat\Messages;
@@ -14,6 +16,7 @@ readonly class OpenAISDK
 {
     private const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
     private const MODERATIONS_PATH = '/v1/moderations';
+    private const TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
 
     public function __construct(
         private OpenAIHTTPClient $client
@@ -44,7 +47,7 @@ readonly class OpenAISDK
             $request['n'] = $choices;
         }
 
-        $rawResponse = $this->client->postJson(self::CHAT_COMPLETIONS_PATH, $request);
+        $rawResponse = $this->client->postData(self::CHAT_COMPLETIONS_PATH, $request);
 
         return ChatCompletionResponse::fromJson($rawResponse->getBody()->getContents());
     }
@@ -54,7 +57,7 @@ readonly class OpenAISDK
      */
     public function createModeration(string $input, Model $model = Model::MODERATION_LATEST): ModerationResponse
     {
-        $rawResponse = $this->client->postJson(
+        $rawResponse = $this->client->postData(
             self::MODERATIONS_PATH,
             [
                 'input' => $input,
@@ -63,5 +66,22 @@ readonly class OpenAISDK
         );
 
         return ModerationResponse::fromJson($rawResponse->getBody()->getContents());
+    }
+
+    /**
+     * @throws OpenAIClientException
+     */
+    public function createTranscription(string $filePath): TranscriptionResponse
+    {
+        $rawResponse = $this->client->postData(
+            self::TRANSCRIPTIONS_PATH,
+            [[
+                'file' => Utils::tryFopen($filePath,'r'),
+                'model' => Model::WHISPER1,
+            ]],
+            contentType: 'multipart'
+        );
+
+        return TranscriptionResponse::fromJson($rawResponse->getBody()->getContents());
     }
 }

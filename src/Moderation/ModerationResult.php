@@ -25,9 +25,6 @@ readonly class ModerationResult
             )
         );
 
-        return new self(
-            $data['flagged'],
-            new Categories(...$categories)
-        );
+        return new self($data['flagged'], new Categories(...$categories));
     }
 }
