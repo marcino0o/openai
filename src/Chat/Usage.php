@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai\Chat;
+namespace Openai\Chat;
 
 readonly class Usage
 {

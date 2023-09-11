@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai;
+namespace Openai;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
-use RWS\Openai\Exception\LimitExceededException;
-use RWS\Openai\Exception\OpenAIClientException;
-use RWS\Openai\Exception\UnauthorizedException;
+use Openai\Exception\LimitExceededException;
+use Openai\Exception\OpenAIClientException;
+use Openai\Exception\UnauthorizedException;
 
 class OpenAIHTTPClient extends Client
 {

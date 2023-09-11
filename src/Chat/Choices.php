@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai\Chat;
+namespace Openai\Chat;
 
 use Iterator;
-use RWS\Openai\IteratorTrait;
+use Openai\IteratorTrait;
 
+/**
+ * @implements Iterator<Choice>
+ */
 class Choices implements Iterator
 {
     use IteratorTrait;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai;
+namespace Openai;
 
 trait IteratorTrait
 {
@@ -14,7 +14,7 @@ trait IteratorTrait
         $result = [];
 
         foreach ($this as $item) {
-            $result[] = $fn( $item);
+            $result[] = $fn($item);
         }
 
         return $result;

@@ -2,21 +2,27 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai;
+namespace Openai;
 
 use GuzzleHttp\Psr7\Utils;
-use RWS\Openai\Audio\TranscriptionResponse;
-use RWS\Openai\Chat\ChatCompletionResponse;
-use RWS\Openai\Chat\Message;
-use RWS\Openai\Chat\Messages;
-use RWS\Openai\Exception\OpenAIClientException;
-use RWS\Openai\Moderation\ModerationResponse;
+use Openai\Audio\TranscriptionResponse;
+use Openai\Chat\ChatCompletionResponse;
+use Openai\Chat\Message;
+use Openai\Chat\Messages;
+use Openai\Exception\OpenAIClientException;
+use Openai\Image\ImageResponse;
+use Openai\Image\Prompt;
+use Openai\Image\ResponseFormat;
+use Openai\Image\Size;
+use Openai\Moderation\ModerationResponse;
 
 readonly class OpenAISDK
 {
     private const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
     private const MODERATIONS_PATH = '/v1/moderations';
     private const TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
+
+    private const IMAGES_GENERATIONS_PATH = '/v1/images/generations';
 
     public function __construct(
         private OpenAIHTTPClient $client
@@ -30,7 +36,8 @@ readonly class OpenAISDK
         Messages $messages,
         Model $model = Model::GPT3_5_TURBO,
         ?int $temperature = 1,
-        ?int $choices = null
+        ?int $choices = null,
+        ?string $user = null
     ): ChatCompletionResponse {
         $request = [
             'model' => $model->value,
@@ -45,6 +52,10 @@ readonly class OpenAISDK
 
         if ($choices !== null) {
             $request['n'] = $choices;
+        }
+
+        if ($user !== null) {
+            $request['user'] = $user;
         }
 
         $rawResponse = $this->client->postData(self::CHAT_COMPLETIONS_PATH, $request);
@@ -83,5 +94,31 @@ readonly class OpenAISDK
         );
 
         return TranscriptionResponse::fromJson($rawResponse->getBody()->getContents());
+    }
+
+    public function createImage(
+        Prompt $prompt,
+        Size $size = Size::LARGE,
+        ResponseFormat $responseFormat = ResponseFormat::URL,
+        ?int $choices = null,
+        ?string $user = null
+    ): ImageResponse {
+        $request = [
+            'prompt' => $prompt->text,
+            'size' => $size->value,
+            'response_format' => $responseFormat->value
+        ];
+
+        if ($choices !== null) {
+            $request['n'] = $choices;
+        }
+
+        if ($user !== null) {
+            $request['user'] = $user;
+        }
+
+        $rawResponse = $this->client->postData(self::IMAGES_GENERATIONS_PATH, $request);
+
+        return ImageResponse::fromJson($rawResponse->getBody()->getContents());
     }
 }

@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Openai\Audio;
+namespace Openai;
 
 use InvalidArgumentException;
 use Throwable;
 
-final readonly class TranscriptionResponse
+abstract class OpenaiResponse
 {
-    public function __construct(public string $text) {
-    }
-
-    public static function fromJson(string $json): self
+    public function fromJson(string $json): static
     {
         try {
             $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
@@ -20,6 +17,8 @@ final readonly class TranscriptionResponse
             throw new InvalidArgumentException('Provided string must be a valid json');
         }
 
-        return new self($data['text']);
+        return $this->fromArray($data);
     }
+
+    abstract protected function fromArray(mixed $data): static;
 }

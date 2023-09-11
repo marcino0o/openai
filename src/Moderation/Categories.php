@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai\Moderation;
+namespace Openai\Moderation;
 
 use Iterator;
-use RWS\Openai\IteratorTrait;
+use Openai\IteratorTrait;
 
+/**
+ * @implements Iterator<Category>
+ */
 class Categories implements Iterator
 {
     use IteratorTrait;

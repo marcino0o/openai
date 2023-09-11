@@ -11,21 +11,21 @@
     }
   ],
   "require": {
-    "ext-mbstring": "*",
     "guzzlehttp/guzzle": "^7.0",
-    "php": "^8.2"
+    "php": "^8.2",
+    "ext-mbstring": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^10"
   },
   "autoload": {
     "psr-4": {
-      "RWS\\Openai\\": "src"
+      "Openai\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "RWS\\Openai\\Tests\\": "tests"
+      "Openai\\Tests\\": "tests"
     }
   }
 }

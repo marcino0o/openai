@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai\Chat;
+namespace Openai\Chat;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
-use RWS\Openai\Model;
+use Openai\Model;
 use Throwable;
 
 final readonly class ChatCompletionResponse

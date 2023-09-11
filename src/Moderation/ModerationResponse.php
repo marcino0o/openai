@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace RWS\Openai\Moderation;
+namespace Openai\Moderation;
 
 use InvalidArgumentException;
-use RWS\Openai\Model;
+use Openai\Model;
 use Throwable;
 
 readonly class ModerationResponse
