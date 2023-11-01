@@ -15,9 +15,9 @@ final readonly class ChatCompletionResponse
 
     public function __construct(
         public string $id,
+        public Choices $choices,
         public DateTimeImmutable $created,
         public Model $model,
-        public Choices $choices,
         public Usage $usage,
     ) {
         $this->object = 'chat.completion';
@@ -33,9 +33,9 @@ final readonly class ChatCompletionResponse
 
         return new self(
             id: $data['id'],
+            choices: Choices::fromArray($data['choices']),
             created: (new DateTimeImmutable())->setTimestamp($data['created']),
             model: Model::tryFrom($data['model']),
-            choices: Choices::fromArray($data['choices']),
             usage: Usage::fromArray($data['usage'])
         );
     }

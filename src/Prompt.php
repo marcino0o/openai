@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Openai\Image;
+namespace Openai;
 
 use InvalidArgumentException;
 

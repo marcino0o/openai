@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Openai;
 
 use GuzzleHttp\Psr7\Utils;
+use Openai\Audio\AudioResponseFormat;
+use Openai\Audio\AudioTemperature;
+use Openai\Audio\Language;
 use Openai\Audio\TranscriptionResponse;
 use Openai\Chat\ChatCompletionResponse;
+use Openai\Chat\ChatTemperature;
+use Openai\Chat\FrequencyPenalty;
 use Openai\Chat\Message;
 use Openai\Chat\Messages;
 use Openai\Exception\OpenAIClientException;
 use Openai\Image\ImageResponse;
-use Openai\Image\Prompt;
 use Openai\Image\ResponseFormat;
 use Openai\Image\Size;
 use Openai\Moderation\ModerationResponse;
@@ -21,7 +25,6 @@ readonly class OpenAISDK
     private const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
     private const MODERATIONS_PATH = '/v1/moderations';
     private const TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
-
     private const IMAGES_GENERATIONS_PATH = '/v1/images/generations';
 
     public function __construct(
@@ -35,13 +38,13 @@ readonly class OpenAISDK
     public function createChatCompletion(
         Messages $messages,
         Model $model = Model::GPT3_5_TURBO,
-        ?int $temperature = 1,
+        ?FrequencyPenalty $frequencyPenalty = null,
+        ?ChatTemperature $temperature = null,
         ?int $choices = null,
         ?string $user = null
     ): ChatCompletionResponse {
         $request = [
             'model' => $model->value,
-            'temperature' => $temperature,
             'messages' => $messages->map(
                 static fn (Message $message): array => [
                     'role' => $message->role->value,
@@ -49,6 +52,14 @@ readonly class OpenAISDK
                 ]
             ),
         ];
+
+        if ($frequencyPenalty !== null) {
+            $request['frequency_penalty'] = $frequencyPenalty->value;
+        }
+
+        if ($temperature !== null) {
+            $request['temperature'] = $temperature->value;
+        }
 
         if ($choices !== null) {
             $request['n'] = $choices;
@@ -82,20 +93,114 @@ readonly class OpenAISDK
     /**
      * @throws OpenAIClientException
      */
-    public function createTranscription(string $filePath): TranscriptionResponse
-    {
+    public function createAudioTranscription(
+        string $filePath,
+        ?AudioTemperature $temperature = null,
+        ?Language $language = null,
+        ?Prompt $prompt = null,
+        ?AudioResponseFormat $responseFormat = null
+    ): TranscriptionResponse {
+        $request = [
+            [
+                'name' => 'file',
+                'contents' => Utils::tryFopen($filePath,'r'),
+            ],
+            [
+                'name' => 'model',
+                'contents' => Model::WHISPER1->value,
+            ]
+        ];
+
+        if ($temperature !== null) {
+            $request[] = [
+                'name' => 'temperature',
+                'contents' => $temperature->value,
+            ];
+        }
+
+        if ($language !== null) {
+            $request[] = [
+                'name' => 'language',
+                'contents' => $language->value,
+            ];
+        }
+
+        if ($prompt !== null) {
+            $request[] = [
+                'name' => 'prompt',
+                'contents' => $prompt->text,
+            ];
+        }
+
+        if ($responseFormat !== null) {
+            $request[] = [
+                'name' => 'response_format',
+                'contents' => $responseFormat->value,
+            ];
+        }
+
         $rawResponse = $this->client->postData(
             self::TRANSCRIPTIONS_PATH,
-            [[
-                'file' => Utils::tryFopen($filePath,'r'),
-                'model' => Model::WHISPER1,
-            ]],
+            $request,
             contentType: 'multipart'
         );
 
         return TranscriptionResponse::fromJson($rawResponse->getBody()->getContents());
     }
 
+    /**
+     * @throws OpenAIClientException
+     */
+    public function createAudioTranslation(
+        string $filePath,
+        ?AudioTemperature $temperature = null,
+        ?Prompt $prompt = null,
+        ?ResponseFormat $responseFormat = null
+    ): TranscriptionResponse {
+        $request = [
+            [
+                'name' => 'file',
+                'contents' => Utils::tryFopen($filePath,'r'),
+            ],
+            [
+                'name' => 'model',
+                'contents' => Model::WHISPER1->value,
+            ]
+        ];
+
+        if ($temperature !== null) {
+            $request[] = [
+                'name' => 'temperature',
+                'contents' => $temperature->value,
+            ];
+        }
+
+        if ($prompt !== null) {
+            $request[] = [
+                'name' => 'prompt',
+                'contents' => $prompt->text,
+            ];
+        }
+
+        if ($responseFormat !== null) {
+            $request[] = [
+                'name' => 'response_format',
+                'contents' => $responseFormat->value,
+            ];
+        }
+
+        $rawResponse = $this->client->postData(
+            self::TRANSCRIPTIONS_PATH,
+            $request,
+            contentType: 'multipart'
+        );
+
+        return TranscriptionResponse::fromJson($rawResponse->getBody()->getContents());
+    }
+
+    /**
+     * @throws OpenAIClientException
+     */
     public function createImage(
         Prompt $prompt,
         Size $size = Size::LARGE,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Openai;
 
 /**
- * @method static tryFrom(mixed $model)
+ * @method static self tryFrom(mixed $model)
  * @property string $value
  */
 enum Model: string
