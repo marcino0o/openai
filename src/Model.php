@@ -41,6 +41,7 @@ enum Model: string
      */
     case GPT3_5_TURBO = 'gpt-3.5-turbo';
     case GPT3_5_TURBO_0613 = 'gpt-3.5-turbo-0613';
+    case GPT3_5_TURBO_0125 = 'gpt-3.5-turbo-0125';
 
     /**
      * Same capabilities as the standard gpt-3.5-turbo model but with 4 times the context.
