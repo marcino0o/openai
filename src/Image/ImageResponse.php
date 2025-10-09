@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Openai\Image;
 
 use DateTimeImmutable;
+use Openai\Utils\DateTimeUtils;
 use Openai\Utils\JsonUtils;
 
 final readonly class ImageResponse
@@ -23,7 +24,7 @@ final readonly class ImageResponse
         $data = JsonUtils::decode($json);
 
         return new self(
-            (new DateTimeImmutable())->setTimestamp($data['created']),
+            DateTimeUtils::fromTimestamp($data['created']),
             ...array_map(
                 static fn ($image): Image => new Image(url: $image['url'] ?? null, base64: $image['b64_json'] ?? null),
                 $data['data']

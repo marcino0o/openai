@@ -12,8 +12,12 @@ final readonly class JsonUtils
     /**
      * @throws InvalidArgumentException
      */
-    public static function decode($json, bool $assoc = true, int $depth = 512, int $options = JSON_THROW_ON_ERROR): array
-    {
+    public static function decode(
+        mixed $json,
+        bool $assoc = true,
+        int $depth = 512,
+        int $options = JSON_THROW_ON_ERROR
+    ): array {
         try {
             $data = json_decode($json, $assoc, $depth, $options);
         } catch (Throwable) {

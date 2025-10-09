@@ -6,6 +6,7 @@ namespace Openai\Chat;
 
 use DateTimeImmutable;
 use Openai\Model;
+use Openai\Utils\DateTimeUtils;
 use Openai\Utils\JsonUtils;
 
 final readonly class ChatCompletionResponse
@@ -29,7 +30,7 @@ final readonly class ChatCompletionResponse
         return new self(
             id: $data['id'],
             choices: Choices::fromArray($data['choices']),
-            created: (new DateTimeImmutable())->setTimestamp($data['created']),
+            created: DateTimeUtils::fromTimestamp($data['created']),
             model: Model::tryFrom($data['model']),
             usage: Usage::fromArray($data['usage'])
         );
