@@ -40,9 +40,8 @@ class OpenAISDKTest extends TestCase
             )
         );
 
-
         self::assertEquals('chatcmpl-123', $response->id);
-        self::assertEquals(Model::GPT3_5_TURBO_0613, $response->model);
+        self::assertEquals(Model::GPT5, $response->model);
         self::assertEquals('chat.completion', $response->object);
 
         $choice = $response->choices->current();

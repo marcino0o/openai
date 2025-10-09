@@ -71,6 +71,6 @@ use Openai\OpenAISDK;
 $sdk = new OpenAISDK(new OpenAIHTTPClient(apiKey: 'openai_api_key'));
 $sdk->createChatCompletion(
     new Messages(Message::fromUser('Hello')),
-    model: Model::GPT4
+    model: Model::GPT5
 );
 ```

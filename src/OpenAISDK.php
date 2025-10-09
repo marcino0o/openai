@@ -19,13 +19,15 @@ use Openai\Image\ImageResponse;
 use Openai\Image\ResponseFormat;
 use Openai\Image\Size;
 use Openai\Moderation\ModerationResponse;
+use Openai\Utils\RequestUtils;
 
-readonly class OpenAISDK
+final readonly class OpenAISDK
 {
-    private const CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
-    private const MODERATIONS_PATH = '/v1/moderations';
-    private const TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
-    private const IMAGES_GENERATIONS_PATH = '/v1/images/generations';
+    private const string CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
+    private const string MODERATIONS_PATH = '/v1/moderations';
+    private const string TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
+    private const string IMAGES_GENERATIONS_PATH = '/v1/images/generations';
+    private const string RESPONSES_PATH = '/v1/responses';
 
     public function __construct(
         private OpenAIHTTPClient $client
@@ -37,7 +39,7 @@ readonly class OpenAISDK
      */
     public function createChatCompletion(
         Messages $messages,
-        Model $model = Model::GPT3_5_TURBO,
+        Model $model = Model::GPT5,
         ?FrequencyPenalty $frequencyPenalty = null,
         ?ChatTemperature $temperature = null,
         ?int $choices = null,
@@ -101,42 +103,24 @@ readonly class OpenAISDK
         ?AudioResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            [
-                'name' => 'file',
-                'contents' => Utils::tryFopen($filePath,'r'),
-            ],
-            [
-                'name' => 'model',
-                'contents' => Model::WHISPER1->value,
-            ]
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
+            RequestUtils::buildRequestPart('model',Model::WHISPER1->value),
         ];
 
         if ($temperature !== null) {
-            $request[] = [
-                'name' => 'temperature',
-                'contents' => $temperature->value,
-            ];
+            $request[] = RequestUtils::buildRequestPart('temperature', $temperature->value);
         }
 
         if ($language !== null) {
-            $request[] = [
-                'name' => 'language',
-                'contents' => $language->value,
-            ];
+            $request[] = RequestUtils::buildRequestPart('language', $language->value);
         }
 
         if ($prompt !== null) {
-            $request[] = [
-                'name' => 'prompt',
-                'contents' => $prompt->text,
-            ];
+            $request[] = RequestUtils::buildRequestPart('prompt', $prompt->text);
         }
 
         if ($responseFormat !== null) {
-            $request[] = [
-                'name' => 'response_format',
-                'contents' => $responseFormat->value,
-            ];
+            $request[] = RequestUtils::buildRequestPart('response_format', $responseFormat->value);
         }
 
         $rawResponse = $this->client->postData(
@@ -158,35 +142,20 @@ readonly class OpenAISDK
         ?ResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            [
-                'name' => 'file',
-                'contents' => Utils::tryFopen($filePath,'r'),
-            ],
-            [
-                'name' => 'model',
-                'contents' => Model::WHISPER1->value,
-            ]
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
+            RequestUtils::buildRequestPart('model', Model::WHISPER1->value),
         ];
 
         if ($temperature !== null) {
-            $request[] = [
-                'name' => 'temperature',
-                'contents' => $temperature->value,
-            ];
+            $request[] = RequestUtils::buildRequestPart('temperature', $temperature->value);
         }
 
         if ($prompt !== null) {
-            $request[] = [
-                'name' => 'prompt',
-                'contents' => $prompt->text,
-            ];
+            $request[] = RequestUtils::buildRequestPart('prompt', $prompt->text);
         }
 
         if ($responseFormat !== null) {
-            $request[] = [
-                'name' => 'response_format',
-                'contents' => $responseFormat->value,
-            ];
+            $request[] = RequestUtils::buildRequestPart('response_format', $responseFormat->value);
         }
 
         $rawResponse = $this->client->postData(
@@ -225,5 +194,10 @@ readonly class OpenAISDK
         $rawResponse = $this->client->postData(self::IMAGES_GENERATIONS_PATH, $request);
 
         return ImageResponse::fromJson($rawResponse->getBody()->getContents());
+    }
+
+    public function createResponse(): string
+    {
+        throw new \RuntimeException('Not implemented');
     }
 }

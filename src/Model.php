@@ -10,13 +10,13 @@ namespace Openai;
  */
 enum Model: string
 {
+    case GPT5 = 'gpt-5';
     /**
      * GPT-4 is a large multimodal model (accepting text inputs and emitting text outputs today, with image inputs
      * coming in the future) that can solve difficult problems with greater accuracy than any of our previous models,
      * thanks to its broader general knowledge and advanced reasoning capabilities. Like gpt-3.5-turbo, GPT-4 is
      * optimized for chat but works well for traditional completions tasks using the Chat completions API.
      */
-
     /**
      * More capable than any GPT-3.5 model, able to do more complex tasks, and optimized for chat. Will be updated with
      * our latest model iteration 2 weeks after it is released.
