@@ -12,8 +12,8 @@ use InvalidArgumentException;
  */
 readonly class FrequencyPenalty
 {
-    private const MIN_VALUE = -2;
-    private const MAX_VALUE = 2;
+    private const float MIN_VALUE = -2;
+    private const float MAX_VALUE = 2;
 
     public ?float $value;
 
@@ -31,7 +31,7 @@ readonly class FrequencyPenalty
 
     private function assertValid(?float $value): void
     {
-        if ($value !== null && ($value < self::MIN_VALUE || $value > self::MAX_VALUE)) {
+        if ($value !== null && (!is_float($value) || $value < self::MIN_VALUE || $value > self::MAX_VALUE)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Invalid value for frequency penalty, should be null or number between %s and %s',

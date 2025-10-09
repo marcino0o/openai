@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Openai\Moderation;
 
 use Iterator;
-use Openai\IteratorTrait;
+use Openai\Utils\IteratorTrait;
 
 /**
  * @implements Iterator<Category>

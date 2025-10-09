@@ -12,8 +12,8 @@ use InvalidArgumentException;
  */
 readonly class ChatTemperature
 {
-    private const MIN_VALUE = 0;
-    private const MAX_VALUE = 2.0;
+    private const float MIN_VALUE = 0;
+    private const float MAX_VALUE = 2.0;
 
     private function __construct(
         public ?float $value

@@ -14,7 +14,7 @@ use Openai\Exception\UnauthorizedException;
 
 class OpenAIHTTPClient extends Client
 {
-    private const API_URL = 'https://api.openai.com/';
+    private const string API_URL = 'https://api.openai.com/';
 
     public function __construct(string $apiKey, array $config = [])
     {

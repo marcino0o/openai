@@ -13,8 +13,8 @@ use InvalidArgumentException;
  */
 readonly class AudioTemperature
 {
-    private const MIN_VALUE = 0;
-    private const MAX_VALUE = 1.0;
+    private const float MIN_VALUE = 0;
+    private const float MAX_VALUE = 1.0;
 
     private function __construct(
         public ?float $value

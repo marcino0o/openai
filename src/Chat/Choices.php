@@ -6,7 +6,7 @@ namespace Openai\Chat;
 
 use Countable;
 use Iterator;
-use Openai\IteratorTrait;
+use Openai\Utils\IteratorTrait;
 
 /**
  * @implements Iterator<Choice>
