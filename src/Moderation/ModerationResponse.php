@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Openai\Moderation;
 
-use InvalidArgumentException;
 use Openai\Model;
-use Throwable;
+use Openai\Utils\JsonUtils;
 
 readonly class ModerationResponse
 {
@@ -19,11 +18,7 @@ readonly class ModerationResponse
 
     public static function fromJson(string $json): self
     {
-        try {
-            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-        } catch (Throwable) {
-            throw new InvalidArgumentException('Provided string must be a valid json');
-        }
+        $data = JsonUtils::decode($json);
 
         return new self(
             id: $data['id'],
