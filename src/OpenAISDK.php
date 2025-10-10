@@ -123,8 +123,8 @@ final readonly class OpenAISDK
         }
 
         $rawResponse = $this->client->postData(
-            self::TRANSCRIPTIONS_PATH,
-            $request,
+            uri: self::TRANSCRIPTIONS_PATH,
+            body: $request,
             contentType: 'multipart'
         );
 

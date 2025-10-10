@@ -7,6 +7,7 @@ namespace Openai;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\HandlerStack;
 use Openai\Exception\LimitExceededException;
 use Openai\Exception\OpenAIClientException;
 use Openai\Exception\UnauthorizedException;
@@ -18,7 +19,7 @@ class OpenAIHTTPClient extends Client
     private const string API_URL = 'https://api.openai.com/';
 
     /**
-     * @param array<string, string> $config
+     * @param array<string, HandlerStack> $config
      */
     public function __construct(string $apiKey, array $config = [])
     {
@@ -36,8 +37,8 @@ class OpenAIHTTPClient extends Client
     }
 
     /**
-     * @param array<string, mixed> $body
-     * @param array<string, mixed> $options
+     * @param array<string, array|float|int|string|null> $body
+     * @param array<string, string> $options
      *
      * @throws LimitExceededException
      * @throws OpenAIClientException

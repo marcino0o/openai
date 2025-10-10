@@ -13,7 +13,7 @@ readonly class ModerationResult
     }
 
     /**
-     * @param array{categories: array, category_scores: array, flagged: bool} $data
+     * @param array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool} $data
      */
     public static function fromArray(array $data): self
     {

@@ -18,7 +18,7 @@ readonly class ModerationResponse
 
     public static function fromJson(string $json): self
     {
-        /** @var array{id: string, model: string, results: array{categories: array, category_scores: array, flagged: bool}[]} $data */
+        /** @var array{id: string, model: string, results: array<integer, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>} $data */
         $data = JsonUtils::decode($json);
 
         return new self(
