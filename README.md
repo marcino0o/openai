@@ -6,6 +6,15 @@ A lightweight, modern PHP (≥ 8.4) wrapper for the OpenAI API. Focused on simpl
 
 ---
 
+[![Packagist Version](https://img.shields.io/packagist/v/marcino0o/openai.svg?style=flat-square)](https://packagist.org/packages/marcino0o/openai)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/marcino0o/openai.svg?style=flat-square)](https://packagist.org/packages/marcino0o/openai)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/marcino0o/openai/release.yml?branch=main&label=release&style=flat-square)](https://github.com/marcino0o/openai/actions)
+[![License](https://img.shields.io/github/license/marcino0o/openai.svg?style=flat-square)](LICENSE)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue?style=flat-square)](https://www.php.net/)
+[![Tests](https://img.shields.io/github/actions/workflow/status/marcino0o/openai/tests.yml?label=tests&style=flat-square)](https://github.com/marcino0o/openai/actions/workflows/tests.yml)
+
+
+---
 ## Table of Contents
 
 * [Requirements](#requirements)
