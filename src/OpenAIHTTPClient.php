@@ -14,7 +14,7 @@ use Openai\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 
-class OpenAIHTTPClient extends Client
+class OpenAIHTTPClient extends Client // @phpstan-ignore class.extendsFinalByPhpDoc
 {
     private const string API_URL = 'https://api.openai.com/';
 
@@ -37,15 +37,19 @@ class OpenAIHTTPClient extends Client
     }
 
     /**
-     * @param array<string, array|float|int|string|null> $body
+     * @param array<string|integer, array|float|int|string|null> $body
      * @param array<string, string> $options
      *
      * @throws LimitExceededException
      * @throws OpenAIClientException
      * @throws UnauthorizedException
      */
-    public function postData(UriInterface|string $uri, array $body, string $contentType = 'json', array $options = []): ResponseInterface
-    {
+    public function postData( // @phpstan-ignore missingType.iterableValue
+        UriInterface|string $uri,
+        array $body,
+        string $contentType = 'json',
+        array $options = []
+    ): ResponseInterface {
         try {
             return $this->post($uri, array_merge([
                 $contentType => $body,
