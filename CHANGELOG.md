@@ -1,0 +1,14 @@
+# Changelog
+
+# 1.0.0 (2025-10-10)
+
+
+### Bug Fixes
+
+* readme file updated with more examples ([b7ded4b](https://github.com/marcino0o/openai/commit/b7ded4bbb901b9e3c164f5ee817d66f624f7ad42))
+* update model list ([cb0339d](https://github.com/marcino0o/openai/commit/cb0339d43e7149ee81dea6185daf7cfd42068f40))
+
+
+### Features
+
+* auto versioning added ([8902092](https://github.com/marcino0o/openai/commit/8902092e0283bf32150a14eb87de57dcd7d092f0))
