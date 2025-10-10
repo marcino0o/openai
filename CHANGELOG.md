@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/marcino0o/openai/compare/v1.0.3...v1.0.4) (2025-10-10)
+
+
+### Bug Fixes
+
+* cleanup composer version file ([7028fe5](https://github.com/marcino0o/openai/commit/7028fe53e8580df7315098d9e6c0fec9ea4e3330))
+* cleanup composer version file ([edcefa9](https://github.com/marcino0o/openai/commit/edcefa90dba455aa6c0eb1266618ee35e9d7d5e0))
+
 ## [1.0.3](https://github.com/marcino0o/openai/compare/v1.0.2...v1.0.3) (2025-10-10)
 
 
