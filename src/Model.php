@@ -46,8 +46,6 @@ enum Model: string
      * our latest model iteration 2 weeks after it is released.
      */
     case GPT3_5_TURBO = 'gpt-3.5-turbo';
-    case GPT3_5_TURBO_0613 = 'gpt-3.5-turbo-0613';
-    case GPT3_5_TURBO_0125 = 'gpt-3.5-turbo-0125';
 
     /**
      * Same capabilities as the standard gpt-3.5-turbo model but with 4 times the context.
@@ -79,4 +77,10 @@ enum Model: string
      * Almost as capable as the latest model, but slightly older.
      */
     case MODERATION_STABLE = 'text-moderation-stable';
+
+    public static function tryFromModelString(string $model): ?self
+    {
+        return array_find(self::cases(), static fn($case) => str_starts_with($model, $case->value));
+
+    }
 }

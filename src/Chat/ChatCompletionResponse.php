@@ -31,7 +31,7 @@ final readonly class ChatCompletionResponse
             id: $data['id'],
             choices: Choices::fromArray($data['choices']),
             created: DateTimeUtils::fromTimestamp($data['created']),
-            model: Model::tryFrom($data['model']),
+            model: Model::tryFromModelString($data['model']),
             usage: Usage::fromArray($data['usage'])
         );
     }

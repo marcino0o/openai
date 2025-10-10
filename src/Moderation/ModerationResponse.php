@@ -22,7 +22,7 @@ readonly class ModerationResponse
 
         return new self(
             id: $data['id'],
-            model: Model::tryFrom($data['model']),
+            model: Model::tryFromModelString($data['model']),
             moderationResult: ModerationResult::fromArray($data['results'][0])
         );
     }
