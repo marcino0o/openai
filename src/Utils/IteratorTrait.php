@@ -6,10 +6,10 @@ namespace Openai\Utils;
 
 trait IteratorTrait
 {
-    private array $items;
+    private array $items; // @phpstan-ignore missingType.iterableValue
     private int $pointer = 0;
 
-    public function map(callable $fn): array
+    public function map(callable $fn): array // @phpstan-ignore missingType.iterableValue
     {
         $result = [];
 
@@ -22,7 +22,7 @@ trait IteratorTrait
 
     public function current(): mixed
     {
-        return $this->items[$this->pointer];
+        return $this->items[$this->pointer]; // @phpstan-ignore return.type
     }
 
     public function next(): void

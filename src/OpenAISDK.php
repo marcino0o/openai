@@ -27,7 +27,6 @@ final readonly class OpenAISDK
     private const string MODERATIONS_PATH = '/v1/moderations';
     private const string TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
     private const string IMAGES_GENERATIONS_PATH = '/v1/images/generations';
-    private const string RESPONSES_PATH = '/v1/responses';
 
     public function __construct(
         private OpenAIHTTPClient $client
@@ -85,7 +84,7 @@ final readonly class OpenAISDK
             self::MODERATIONS_PATH,
             [
                 'input' => $input,
-                'model' => $model->value
+                'model' => $model->value,
             ]
         );
 
@@ -103,8 +102,8 @@ final readonly class OpenAISDK
         ?AudioResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
-            RequestUtils::buildRequestPart('model',Model::WHISPER1->value),
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath, 'r')),
+            RequestUtils::buildRequestPart('model', Model::WHISPER1->value),
         ];
 
         if ($temperature !== null) {
@@ -124,8 +123,8 @@ final readonly class OpenAISDK
         }
 
         $rawResponse = $this->client->postData(
-            self::TRANSCRIPTIONS_PATH,
-            $request,
+            uri: self::TRANSCRIPTIONS_PATH,
+            body: $request,
             contentType: 'multipart'
         );
 
@@ -142,7 +141,7 @@ final readonly class OpenAISDK
         ?ResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath, 'r')),
             RequestUtils::buildRequestPart('model', Model::WHISPER1->value),
         ];
 
@@ -180,7 +179,7 @@ final readonly class OpenAISDK
         $request = [
             'prompt' => $prompt->text,
             'size' => $size->value,
-            'response_format' => $responseFormat->value
+            'response_format' => $responseFormat->value,
         ];
 
         if ($choices !== null) {

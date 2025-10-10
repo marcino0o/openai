@@ -10,7 +10,9 @@ use Openai\Utils\JsonUtils;
 
 final readonly class ImageResponse
 {
-    /** @var Image[]  */
+    /**
+     * @var Image[]
+     */
     public array $images;
 
     public function __construct(
@@ -19,14 +21,16 @@ final readonly class ImageResponse
     ) {
         $this->images = $images;
     }
+
     public static function fromJson(string $json): self
     {
+        /** @var array{created: integer, data: array{b64_json?: string, url?: string}[]} $data */
         $data = JsonUtils::decode($json);
 
         return new self(
             DateTimeUtils::fromTimestamp($data['created']),
             ...array_map(
-                static fn ($image): Image => new Image(url: $image['url'] ?? null, base64: $image['b64_json'] ?? null),
+                static fn (array $image): Image => new Image(url: $image['url'] ?? null, base64: $image['b64_json'] ?? null),
                 $data['data']
             )
         );

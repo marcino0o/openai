@@ -7,15 +7,20 @@ namespace Openai;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\HandlerStack;
 use Openai\Exception\LimitExceededException;
 use Openai\Exception\OpenAIClientException;
 use Openai\Exception\UnauthorizedException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
-class OpenAIHTTPClient extends Client
+class OpenAIHTTPClient extends Client // @phpstan-ignore class.extendsFinalByPhpDoc
 {
     private const string API_URL = 'https://api.openai.com/';
 
+    /**
+     * @param array<string, HandlerStack> $config
+     */
     public function __construct(string $apiKey, array $config = [])
     {
         parent::__construct(
@@ -32,14 +37,23 @@ class OpenAIHTTPClient extends Client
     }
 
     /**
-     * @throws UnauthorizedException
+     * @param array<string|integer, array|float|int|string|null> $body
+     * @param array<string, string> $options
+     *
      * @throws LimitExceededException
      * @throws OpenAIClientException
+     * @throws UnauthorizedException
      */
-    public function postData($uri, array $body, string $contentType = 'json', array $options = []): ResponseInterface
-    {
+    public function postData(// @phpstan-ignore missingType.iterableValue
+        UriInterface|string $uri,
+        array $body,
+        string $contentType = 'json',
+        array $options = []
+    ): ResponseInterface {
         try {
-            return $this->post($uri, array_merge([$contentType => $body], $options));
+            return $this->post($uri, array_merge([
+                $contentType => $body,
+            ], $options));
         } catch (ClientException $e) {
             throw match ($e->getResponse()->getStatusCode()) {
                 429 => LimitExceededException::fromPrevious($e),

@@ -20,6 +20,9 @@ class TemperatureTest extends TestCase
         self::assertEquals($validValue, $sut->value);
     }
 
+    /**
+     * @return array<integer, array<null|float>>
+     */
     public static function validTemperatureValues(): array
     {
         return [
@@ -42,6 +45,9 @@ class TemperatureTest extends TestCase
         ChatTemperature::tryFrom($invalidValue);
     }
 
+    /**
+     * @return array<integer, array<null|float|string|integer|boolean>>
+     */
     public static function invalidTemperatureValues(): array
     {
         return [

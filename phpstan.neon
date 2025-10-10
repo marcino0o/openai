@@ -1,0 +1,15 @@
+parameters:
+  level: max
+  paths:
+    - src
+    - tests
+
+  # to jest OK:
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+
+  # opcjonalnie:
+  inferPrivatePropertyTypeFromConstructor: true
+  reportUnmatchedIgnoredErrors: true
+
+  ignoreErrors:
+    # tu dodawaj regexy lub identifier-y jeśli potrzebujesz

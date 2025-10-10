@@ -1,0 +1,27 @@
+{
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer",
+        "options": {"script": "cs"},
+        "error": "Coding Standard failed. Run `composer cs:fix`."
+      },
+      {
+        "action": "composer",
+        "options": {"script": "stan"},
+        "error": "PHPStan failed."
+      }
+    ]
+  },
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer",
+        "options": {"script": "test"},
+        "error": "Tests failed."
+      }
+    ]
+  }
+}

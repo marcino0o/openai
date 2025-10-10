@@ -105,6 +105,9 @@ class OpenAISDKTest extends TestCase
         $this->assertObjectHasProperty('images', $response);
     }
 
+    /**
+     * @param array<array<string>|string> $headers
+     */
     private function createClientMockWithResponse(
         string $body,
         int $status = 200,
