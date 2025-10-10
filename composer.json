@@ -17,7 +17,14 @@
     "ext-mbstring": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.5"
+    "captainhook/captainhook": "^5.25",
+    "captainhook/plugin-composer": "^5.3",
+    "infection/infection": "^0.28",
+    "phpstan/extension-installer": "^1.4",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^10.5",
+    "rector/rector": "^2.2",
+    "symplify/easy-coding-standard": "*"
   },
   "autoload": {
     "psr-4": {
@@ -30,6 +37,31 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit --colors=always"
+    "test": "vendor/bin/phpunit --colors=always",
+    "cs": "ecs check src tests",
+    "cs:fix": "ecs fix src tests",
+    "rector": "rector process --clear-cache",
+    "rector:dry": "rector process --dry-run",
+    "stan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
+    "test": "phpunit --colors=always",
+    "infection": "infection --min-msi=85 --threads=4",
+    "check:all": [
+      "@cs",
+      "@rector:dry",
+      "@stan",
+      "@test"
+    ],
+    "prepare": [
+      "@composer install",
+      "vendor/bin/captainhook install -f"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "captainhook/plugin-composer": true,
+      "infection/extension-installer": true,
+      "phpstan/extension-installer": true
+    },
+    "sort-packages": true
   }
 }

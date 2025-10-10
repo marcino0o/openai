@@ -1,0 +1,19 @@
+parameters:
+  level: max
+  paths:
+    - src
+    - tests
+  checkGenericClassInNonGenericObjectType: true
+  checkMissingIterableValueType: true
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  treatPhpDocTypesAsCertain: false
+  inferPrivatePropertyTypeFromConstructor: true
+  reportUnmatchedIgnoredErrors: true
+
+  ignoreErrors:
+    # przykłady:
+    # - '#is not covariant with#'
+
+includes:
+  # jeśli używasz PHPUnit assertions, dorzuć ewentualne extensiony
+  # - vendor/phpstan/phpstan-phpunit/extension.neon
