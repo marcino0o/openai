@@ -2,3 +2,4 @@
 vendor
 .phpunit.result.cachecomposer.lock
 composer.lock
+.phpunit.cache

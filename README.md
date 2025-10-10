@@ -2,8 +2,6 @@
 
 A lightweight, modern PHP (≥ 8.4) wrapper for the OpenAI API. Focused on simplicity and rapid integration for Chat Completions, with growing support for other endpoints.
 
-> **Status:** actively developed. Stable for chat completions; other endpoints are experimental or planned.
-
 ---
 
 [![Packagist Version](https://img.shields.io/packagist/v/marcino0o/openai.svg?style=flat-square)](https://packagist.org/packages/marcino0o/openai)
@@ -12,7 +10,6 @@ A lightweight, modern PHP (≥ 8.4) wrapper for the OpenAI API. Focused on simpl
 [![License](https://img.shields.io/github/license/marcino0o/openai.svg?style=flat-square)](LICENSE)
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D8.4-blue?style=flat-square)](https://www.php.net/)
 [![Tests](https://img.shields.io/github/actions/workflow/status/marcino0o/openai/tests.yml?label=tests&style=flat-square)](https://github.com/marcino0o/openai/actions/workflows/tests.yml)
-
 
 ---
 ## Table of Contents
@@ -53,25 +50,6 @@ A lightweight, modern PHP (≥ 8.4) wrapper for the OpenAI API. Focused on simpl
 
 ```bash
 composer require marcino0o/openai
-```
-
-### From GitHub (development branch)
-
-```json
-{
-  "repositories": [
-    {"type": "vcs", "url": "https://github.com/marcino0o/openai"}
-  ],
-  "require": {
-    "marcino0o/openai": "dev-main"
-  }
-}
-```
-
-Then:
-
-```bash
-composer update marcino0o/openai -W
 ```
 
 ---
