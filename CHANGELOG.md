@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/marcino0o/openai/compare/v1.0.6...v1.0.7) (2025-10-10)
+
+
+### Bug Fixes
+
+* test cases updated ([db78f77](https://github.com/marcino0o/openai/commit/db78f7716e43c10fd7c3f254e78f79551709e3c9))
+
 ## [1.0.6](https://github.com/marcino0o/openai/compare/v1.0.5...v1.0.6) (2025-10-10)
 
 
