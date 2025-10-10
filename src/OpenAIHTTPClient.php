@@ -39,7 +39,6 @@ class OpenAIHTTPClient extends Client
      * @param array<string, mixed> $body
      * @param array<string, mixed> $options
      *
-     * @return ResponseInterface
      * @throws LimitExceededException
      * @throws OpenAIClientException
      * @throws UnauthorizedException
