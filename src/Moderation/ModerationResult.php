@@ -24,7 +24,7 @@ readonly class ModerationResult
                     name: $category[0], // @phpstan-ignore argument.type
                     flagged: $category[1], // @phpstan-ignore argument.type
                     score: $category[2], // @phpstan-ignore argument.type
-            ),
+                ),
             array_merge_recursive(
                 array_combine($categoriesKeys, $categoriesKeys),
                 $data['categories'],

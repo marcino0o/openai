@@ -44,7 +44,7 @@ class OpenAIHTTPClient extends Client // @phpstan-ignore class.extendsFinalByPhp
      * @throws OpenAIClientException
      * @throws UnauthorizedException
      */
-    public function postData( // @phpstan-ignore missingType.iterableValue
+    public function postData(// @phpstan-ignore missingType.iterableValue
         UriInterface|string $uri,
         array $body,
         string $contentType = 'json',
