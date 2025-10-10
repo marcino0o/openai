@@ -27,5 +27,6 @@
     "psr-4": {
       "Openai\\Tests\\": "tests"
     }
-  }
+  },
+  "version": "1.0.5"
 }
