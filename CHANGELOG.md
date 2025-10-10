@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/marcino0o/openai/compare/v1.0.5...v1.0.6) (2025-10-10)
+
+
+### Bug Fixes
+
+* phpunit configuration added ([eaf901f](https://github.com/marcino0o/openai/commit/eaf901f925aaac018da0339283c105fbf65db0f2))
+
 ## [1.0.5](https://github.com/marcino0o/openai/compare/v1.0.4...v1.0.5) (2025-10-10)
 
 
