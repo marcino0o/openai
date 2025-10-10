@@ -13,7 +13,7 @@ final readonly class JsonUtils
      * @throws InvalidArgumentException
      */
     public static function decode(
-        mixed $json,
+        string $json,
         bool $assoc = true,
         int $depth = 512,
         int $options = JSON_THROW_ON_ERROR

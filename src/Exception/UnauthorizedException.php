@@ -8,6 +8,7 @@ use Throwable;
 
 class UnauthorizedException extends OpenAIClientException
 {
+    #[\Override]
     public static function fromPrevious(Throwable $previous): self
     {
         return new self('Incorrect API key provided', previous: $previous);

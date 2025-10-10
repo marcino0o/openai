@@ -6,7 +6,7 @@ namespace Openai;
 
 use InvalidArgumentException;
 
-readonly class Prompt
+readonly class Prompt implements \Stringable
 {
     private const int MAX_PROMPT_LENGTH = 1000;
 

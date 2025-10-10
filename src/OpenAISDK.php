@@ -27,7 +27,6 @@ final readonly class OpenAISDK
     private const string MODERATIONS_PATH = '/v1/moderations';
     private const string TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
     private const string IMAGES_GENERATIONS_PATH = '/v1/images/generations';
-    private const string RESPONSES_PATH = '/v1/responses';
 
     public function __construct(
         private OpenAIHTTPClient $client

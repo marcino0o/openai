@@ -28,7 +28,7 @@ final readonly class ImageResponse
         return new self(
             DateTimeUtils::fromTimestamp($data['created']),
             ...array_map(
-                static fn ($image): Image => new Image(url: $image['url'] ?? null, base64: $image['b64_json'] ?? null),
+                static fn (array $image): Image => new Image(url: $image['url'] ?? null, base64: $image['b64_json'] ?? null),
                 $data['data']
             )
         );

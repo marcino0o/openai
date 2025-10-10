@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -14,6 +15,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__ . '/vendor',
+        FlipTypeControlToUseExclusiveTypeRector::class,
     ]);
 
     // Podbijanie do nowszych standardów PHP (dostosuj do minimalnego PHP w paczce)
@@ -25,6 +27,4 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::PRIVATIZATION,
         SetList::DEAD_CODE,
     ]);
-
-    // Bezpieczniej: dry-run w CI, real process lokalnie
 };
