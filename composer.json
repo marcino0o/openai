@@ -39,7 +39,7 @@
   "scripts": {
     "test": "vendor/bin/phpunit --colors=always",
     "cs": "ecs check src tests",
-    "cs:fix": "ecs fix src tests",
+    "cs:fix": "ecs check src tests --fix",
     "rector": "rector process --clear-cache",
     "rector:dry": "rector process --dry-run",
     "stan": "phpstan analyse -c phpstan.neon --memory-limit=1G",

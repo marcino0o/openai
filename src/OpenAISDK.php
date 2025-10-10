@@ -85,7 +85,7 @@ final readonly class OpenAISDK
             self::MODERATIONS_PATH,
             [
                 'input' => $input,
-                'model' => $model->value
+                'model' => $model->value,
             ]
         );
 
@@ -103,8 +103,8 @@ final readonly class OpenAISDK
         ?AudioResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
-            RequestUtils::buildRequestPart('model',Model::WHISPER1->value),
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath, 'r')),
+            RequestUtils::buildRequestPart('model', Model::WHISPER1->value),
         ];
 
         if ($temperature !== null) {
@@ -142,7 +142,7 @@ final readonly class OpenAISDK
         ?ResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
-            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath,'r')),
+            RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath, 'r')),
             RequestUtils::buildRequestPart('model', Model::WHISPER1->value),
         ];
 
@@ -180,7 +180,7 @@ final readonly class OpenAISDK
         $request = [
             'prompt' => $prompt->text,
             'size' => $size->value,
-            'response_format' => $responseFormat->value
+            'response_format' => $responseFormat->value,
         ];
 
         if ($choices !== null) {

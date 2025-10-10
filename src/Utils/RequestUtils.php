@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Openai\Utils;
 
-final readonly class RequestUtils {
+final readonly class RequestUtils
+{
     /**
      * @return array{[name: string, contents: mixed]}
      */

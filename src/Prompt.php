@@ -10,7 +10,8 @@ readonly class Prompt
 {
     private const int MAX_PROMPT_LENGTH = 1000;
 
-    private function __construct(public string $text) {
+    private function __construct(public string $text)
+    {
     }
 
     public static function fromString(string $text): self

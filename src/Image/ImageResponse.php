@@ -10,7 +10,9 @@ use Openai\Utils\JsonUtils;
 
 final readonly class ImageResponse
 {
-    /** @var Image[]  */
+    /**
+     * @var Image[]
+     */
     public array $images;
 
     public function __construct(

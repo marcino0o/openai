@@ -80,7 +80,6 @@ enum Model: string
 
     public static function tryFromModelString(string $model): ?self
     {
-        return array_find(self::cases(), static fn($case) => str_starts_with($model, $case->value));
-
+        return array_find(self::cases(), static fn ($case) => str_starts_with($model, $case->value));
     }
 }
