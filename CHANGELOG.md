@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/marcino0o/openai/compare/v1.0.0...v1.0.1) (2025-10-10)
+
+
+### Bug Fixes
+
+* **workflow:** test workflow added for pull-requests and main push ([18861ea](https://github.com/marcino0o/openai/commit/18861ea9591f4d4785e2bc001aa165254dc6c37b))
+
 # 1.0.0 (2025-10-10)
 
 
