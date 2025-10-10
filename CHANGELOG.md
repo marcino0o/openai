@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/marcino0o/openai/compare/v1.0.1...v1.0.2) (2025-10-10)
+
+
+### Bug Fixes
+
+* composer lock updated ([4261192](https://github.com/marcino0o/openai/commit/4261192936a4563f3a78ece384413455882f8257))
+
 ## [1.0.1](https://github.com/marcino0o/openai/compare/v1.0.0...v1.0.1) (2025-10-10)
 
 
