@@ -11,6 +11,12 @@ namespace Openai;
 enum Model: string
 {
     case GPT5 = 'gpt-5';
+    case GPT5_NANO = 'gpt-5-nano';
+    case GPT5_MINI = 'gpt-5-mini';
+
+    case O4_MINI = 'o4-mini';
+    case GPT_4O = 'gpt-4o';
+
     /**
      * GPT-4 is a large multimodal model (accepting text inputs and emitting text outputs today, with image inputs
      * coming in the future) that can solve difficult problems with greater accuracy than any of our previous models,

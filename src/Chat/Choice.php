@@ -17,7 +17,7 @@ readonly class Choice
     {
         return new self(
             index: $data['index'],
-            message: Message::fromAssistant($data['message']['content']),
+            message: Message::fromAssistant($data['message']['content'] ?? ''),
             finishReason: FinishReason::tryFrom($data['finish_reason'])
         );
     }

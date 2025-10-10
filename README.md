@@ -118,6 +118,41 @@ $response = $sdk->createChatCompletion(
 echo $response->choices[0]->message->content;
 ```
 
+**Example response (truncated):**
+
+```json
+{
+  "id": "chatcmpl-abc123",
+  "object": "chat.completion",
+  "created": 1728561000,
+  "model": "gpt-4o-mini",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "In PHP, a recursive function calls itself..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 28,
+    "completion_tokens": 55,
+    "total_tokens": 83
+  }
+}
+```
+
+```php
+$response = $sdk->createChatCompletion(
+    new Messages(
+        Message::fromUser('Explain recursion in a short PHP example.')
+    )
+);
+echo $response->choices[0]->message->content;
+```
+
 ### System Role / Messages
 
 ```php
@@ -127,6 +162,21 @@ $response = $sdk->createChatCompletion(
         Message::fromUser('Summarize monads in 2 sentences.')
     )
 );
+```
+
+**Example response (truncated):**
+
+```json
+{
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "Monads are a design pattern from category theory..."
+      }
+    }
+  ]
+}
 ```
 
 ### Model Selection
@@ -140,11 +190,34 @@ $response = $sdk->createChatCompletion(
 );
 ```
 
+**Example response metadata:**
+
+```json
+{
+  "model": "gpt-4o-mini",
+  "system_fingerprint": "fp_3a1bc...",
+  "usage": {"prompt_tokens": 120, "completion_tokens": 72, "total_tokens": 192}
+}
+```
+
 ### Images
 
 ```php
 $response = $sdk->createImage(prompt: 'A futuristic city skyline at sunset');
 file_put_contents('city.png', base64_decode($response->data[0]->b64_json));
+```
+
+**Example response (truncated):**
+
+```json
+{
+  "created": 1728561000,
+  "data": [
+    {
+      "b64_json": "iVBORw0KGgoAAAANSUhEUgAA..."
+    }
+  ]
+}
 ```
 
 ### Audio
@@ -154,11 +227,42 @@ $response = $sdk->transcribeAudio(file: 'speech.mp3', model: 'gpt-4o-mini-transc
 echo $response->text;
 ```
 
+**Example response:**
+
+```json
+{
+  "task": "transcribe",
+  "language": "en",
+  "duration": 12.81,
+  "text": "Hello everyone, welcome to...",
+  "segments": [
+    {"id": 0, "start": 0.0, "end": 3.1, "text": "Hello everyone,"}
+  ]
+}
+```
+
 ### Embeddings
 
 ```php
 $response = $sdk->createEmbedding(input: 'The quick brown fox jumps over the lazy dog.');
 print_r($response->data[0]->embedding);
+```
+
+**Example response (truncated):**
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [0.0123, -0.0456, 0.0789, ...]
+    }
+  ],
+  "model": "text-embedding-3-small",
+  "usage": {"prompt_tokens": 9, "total_tokens": 9}
+}
 ```
 
 ### Moderations
@@ -167,6 +271,30 @@ print_r($response->data[0]->embedding);
 $response = $sdk->createModeration(input: 'This text contains hate speech.');
 if ($response->results[0]->flagged) {
     echo 'Content flagged for moderation';
+}
+```
+
+**Example response:**
+
+```json
+{
+  "id": "modr-abc123",
+  "model": "omni-moderation-latest",
+  "results": [
+    {
+      "flagged": true,
+      "categories": {
+        "hate": true,
+        "self-harm": false,
+        "violence": false
+      },
+      "category_scores": {
+        "hate": 0.92,
+        "self-harm": 0.01,
+        "violence": 0.07
+      }
+    }
+  ]
 }
 ```
 
