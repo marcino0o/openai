@@ -1,7 +1,7 @@
 {
   "name": "marcino0o/openai",
   "type": "library",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "SDK for communication with open ai",
   "minimum-stability": "stable",
   "license": "MIT",
