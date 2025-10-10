@@ -26,7 +26,7 @@ final readonly class ChatCompletionResponse
     public static function fromJson(string $json): self
     {
         $data = JsonUtils::decode($json);
-
+$tets = '';
         return new self(
             id: $data['id'],
             choices: Choices::fromArray($data['choices']),
