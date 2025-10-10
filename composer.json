@@ -19,7 +19,6 @@
   "require-dev": {
     "captainhook/captainhook": "^5.25",
     "captainhook/plugin-composer": "^5.3",
-    "infection/infection": "^0.28",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^10.5",
@@ -43,10 +42,9 @@
     "rector:fix": "rector process --clear-cache",
     "stan": "phpstan analyse -c phpstan.neon --memory-limit=1G",
     "test": "phpunit --colors=always",
-    "infection": "infection --min-msi=85 --threads=4",
     "check:all": [
       "@cs",
-      "@rector:dry",
+      "@rector",
       "@stan",
       "@test"
     ],

@@ -7,7 +7,7 @@ namespace Openai\Utils;
 final readonly class RequestUtils
 {
     /**
-     * @return array{[name: string, contents: mixed]}
+     * @return array{name: string, contents: mixed}
      */
     public static function buildRequestPart(string $name, mixed $contents): array
     {

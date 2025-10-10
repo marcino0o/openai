@@ -11,11 +11,15 @@ use Openai\Exception\LimitExceededException;
 use Openai\Exception\OpenAIClientException;
 use Openai\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 class OpenAIHTTPClient extends Client
 {
     private const string API_URL = 'https://api.openai.com/';
 
+    /**
+     * @param array<string, string> $config
+     */
     public function __construct(string $apiKey, array $config = [])
     {
         parent::__construct(
@@ -32,11 +36,15 @@ class OpenAIHTTPClient extends Client
     }
 
     /**
-     * @throws UnauthorizedException
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     *
+     * @return ResponseInterface
      * @throws LimitExceededException
      * @throws OpenAIClientException
+     * @throws UnauthorizedException
      */
-    public function postData($uri, array $body, string $contentType = 'json', array $options = []): ResponseInterface
+    public function postData(UriInterface|string $uri, array $body, string $contentType = 'json', array $options = []): ResponseInterface
     {
         try {
             return $this->post($uri, array_merge([
