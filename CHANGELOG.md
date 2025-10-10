@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/marcino0o/openai/compare/v1.0.7...v1.0.8) (2025-10-10)
+
+
+### Bug Fixes
+
+* Model::tryFromModelString method added for avoiding model subversion mismatches ([58debc4](https://github.com/marcino0o/openai/commit/58debc4d282d973c67ebb540fc3ce61d3ef7ec04))
+
 ## [1.0.7](https://github.com/marcino0o/openai/compare/v1.0.6...v1.0.7) (2025-10-10)
 
 
