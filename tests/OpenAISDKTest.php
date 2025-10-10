@@ -28,7 +28,7 @@ class OpenAISDKTest extends TestCase
     {
         $sut = new OpenAISDK(
             $this->createClientMockWithResponse(
-                '{"id":"chatcmpl-123","object":"chat.completion","created":1698705824,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"message":{"role":"assistant","content":"Hello, kind soul, who hath summoned my rhyme,\nI greet thee with words of verse sublime.\nWhat dost thou seek on this fine day?\nPray, let me know, and I shall convey.\n\nForsooth, I am William Shakespeare, at your command,\nA poet of yore, with quill in hand.\nAsketh away, thy questions I shall address,\nIn poetic form, I do confess."},"finish_reason":"stop"}],"usage":{"prompt_tokens":26,"completion_tokens":84,"total_tokens":110}}
+                '{"id":"chatcmpl-123","object":"chat.completion","created":1698705824,"model":"gpt-5","choices":[{"index":0,"message":{"role":"assistant","content":"Hello, kind soul, who hath summoned my rhyme,\nI greet thee with words of verse sublime.\nWhat dost thou seek on this fine day?\nPray, let me know, and I shall convey.\n\nForsooth, I am William Shakespeare, at your command,\nA poet of yore, with quill in hand.\nAsketh away, thy questions I shall address,\nIn poetic form, I do confess."},"finish_reason":"stop"}],"usage":{"prompt_tokens":26,"completion_tokens":84,"total_tokens":110}}
 '
             )
         );
@@ -94,13 +94,15 @@ class OpenAISDKTest extends TestCase
     public function shouldCreateImage(): void
     {
         $sut = new OpenAISDK(
-            $this->createClientMockWithResponse('')
+            $this->createClientMockWithResponse('{"created": 1713833628,"data": [{"b64_json": "..."}],"usage": {"total_tokens": 100,"input_tokens": 50,"output_tokens": 50,"input_tokens_details": {"text_tokens": 10,"image_tokens": 40}}}')
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $response = $sut->createImage(
             Prompt::fromString('I want image of people playing volleyball'),
         );
+
+        $this->assertObjectHasProperty('images', $response);
     }
 
     private function createClientMockWithResponse(

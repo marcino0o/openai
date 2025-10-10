@@ -1,6 +1,7 @@
 {
   "name": "marcino0o/openai",
   "type": "library",
+  "version": "1.0.6",
   "description": "SDK for communication with open ai",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -28,5 +29,7 @@
       "Openai\\Tests\\": "tests"
     }
   },
-  "version": "1.0.6"
+  "scripts": {
+    "test": "vendor/bin/phpunit --colors=always"
+  }
 }
