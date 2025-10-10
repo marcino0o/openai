@@ -25,6 +25,7 @@ final readonly class ChatCompletionResponse
 
     public static function fromJson(string $json): self
     {
+        /** @var array{id: string, choices: array{index: integer, message: array{content: string}, finish_reason: string}[], created: integer, model: string, usage: array{prompt_tokens: integer, completion_tokens: integer, total_tokens: integer}} $data */
         $data = JsonUtils::decode($json);
 
         return new self(

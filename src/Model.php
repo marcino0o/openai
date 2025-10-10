@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Openai;
 
+use InvalidArgumentException;
+
 /**
  * @method static self tryFrom(mixed $model)
  * @property string $value
@@ -78,8 +80,14 @@ enum Model: string
      */
     case MODERATION_STABLE = 'text-moderation-stable';
 
-    public static function tryFromModelString(string $model): ?self
+    public static function tryFromModelString(string $model): self
     {
-        return array_find(self::cases(), static fn ($case): bool => str_starts_with($model, (string) $case->value));
+        $model = array_find(self::cases(), static fn ($case): bool => str_starts_with($model, (string) $case->value));
+
+        if ($model === null) {
+            throw new InvalidArgumentException('Unsupported model provided.');
+        }
+
+        return $model;
     }
 }

@@ -14,6 +14,7 @@ final readonly class TranscriptionResponse
 
     public static function fromJson(string $json): self
     {
+        /** @var array{text: string} $data */
         $data = JsonUtils::decode($json);
 
         return new self($data['text']);

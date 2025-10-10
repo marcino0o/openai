@@ -3,17 +3,13 @@ parameters:
   paths:
     - src
     - tests
-  checkGenericClassInNonGenericObjectType: true
-  checkMissingIterableValueType: true
+
+  # to jest OK:
   checkTooWideReturnTypesInProtectedAndPublicMethods: true
-  treatPhpDocTypesAsCertain: false
+
+  # opcjonalnie:
   inferPrivatePropertyTypeFromConstructor: true
   reportUnmatchedIgnoredErrors: true
 
   ignoreErrors:
-    # przykłady:
-    # - '#is not covariant with#'
-
-includes:
-  # jeśli używasz PHPUnit assertions, dorzuć ewentualne extensiony
-  # - vendor/phpstan/phpstan-phpunit/extension.neon
+    # tu dodawaj regexy lub identifier-y jeśli potrzebujesz

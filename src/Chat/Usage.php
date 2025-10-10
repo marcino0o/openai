@@ -13,6 +13,9 @@ readonly class Usage
     ) {
     }
 
+    /**
+     * @param array{prompt_tokens: integer, completion_tokens: integer, total_tokens: integer} $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(

@@ -13,12 +13,15 @@ readonly class Choice
     ) {
     }
 
+    /**
+     * @param array{index: integer, message: array{content: string}, finish_reason: string} $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(
             index: $data['index'],
-            message: Message::fromAssistant($data['message']['content'] ?? ''),
-            finishReason: FinishReason::tryFrom($data['finish_reason'])
+            message: Message::fromAssistant($data['message']['content']),
+            finishReason: FinishReason::from($data['finish_reason'])
         );
     }
 }

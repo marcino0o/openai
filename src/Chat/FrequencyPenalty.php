@@ -31,7 +31,7 @@ readonly class FrequencyPenalty
 
     private function assertValid(?float $value): void
     {
-        if ($value !== null && (!is_float($value) || $value < self::MIN_VALUE || $value > self::MAX_VALUE)) {
+        if ($value !== null && ($value < self::MIN_VALUE || $value > self::MAX_VALUE)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Invalid value for frequency penalty, should be null or number between %s and %s',

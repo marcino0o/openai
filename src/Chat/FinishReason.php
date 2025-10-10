@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Openai\Chat;
 
-/**
- * @method static tryFrom(mixed $finish_reason)
- */
 enum FinishReason: string
 {
     case STOP = 'stop'; // if the model hit a natural stop point or a provided stop sequence

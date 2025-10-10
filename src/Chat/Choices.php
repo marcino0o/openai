@@ -21,6 +21,9 @@ class Choices implements Iterator, Countable
         $this->items = $choices;
     }
 
+    /**
+     * @param array{index: integer, message: array{content: string}, finish_reason: string}[] $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(...array_map(static fn (array $choice): Choice => Choice::fromArray($choice), $data));

@@ -21,8 +21,10 @@ final readonly class ImageResponse
     ) {
         $this->images = $images;
     }
+
     public static function fromJson(string $json): self
     {
+        /** @var array{created: integer, data: array{b64_json?: string, url?: string}[]} $data */
         $data = JsonUtils::decode($json);
 
         return new self(

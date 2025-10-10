@@ -12,6 +12,9 @@ readonly class ModerationResult
     ) {
     }
 
+    /**
+     * @param array{categories: array, category_scores: array, flagged: bool} $data
+     */
     public static function fromArray(array $data): self
     {
         $categoriesKeys = array_keys($data['categories']);
