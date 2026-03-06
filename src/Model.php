@@ -19,6 +19,16 @@ enum Model: string
     case O4_MINI = 'o4-mini';
     case GPT_4O = 'gpt-4o';
 
+    case GPT_4_1 = 'gpt-4.1';
+    case GPT_4_1_MINI = 'gpt-4.1-mini';
+    case GPT_4_1_NANO = 'gpt-4.1-nano';
+    case GPT_4O_MINI = 'gpt-4o-mini';
+
+    case O1 = 'o1';
+    case O1_MINI = 'o1-mini';
+    case O3 = 'o3';
+    case O3_MINI = 'o3-mini';
+
     /**
      * GPT-4 is a large multimodal model (accepting text inputs and emitting text outputs today, with image inputs
      * coming in the future) that can solve difficult problems with greater accuracy than any of our previous models,
@@ -61,6 +71,8 @@ enum Model: string
      * model name.
      */
     case WHISPER1 = 'whisper-1';
+    case GPT_4O_MINI_TRANSCRIBE = 'gpt-4o-mini-transcribe';
+    case GPT_4O_TRANSCRIBE = 'gpt-4o-transcribe';
 
     /**
      * The Moderation models are designed to check whether content complies with OpenAI's usage policies. The models
@@ -74,6 +86,7 @@ enum Model: string
     case MODERATION_LATEST = 'text-moderation-latest';
 
     case TEXT_MODERATION_006 = 'text-moderation-006';
+    case OMNI_MODERATION_LATEST = 'omni-moderation-latest';
 
     /**
      * Almost as capable as the latest model, but slightly older.
