@@ -14,6 +14,9 @@ use Openai\Chat\ChatTemperature;
 use Openai\Chat\FrequencyPenalty;
 use Openai\Chat\Message;
 use Openai\Chat\Messages;
+use Openai\Chat\PresencePenalty;
+use Openai\Chat\ReasoningEffort;
+use Openai\Chat\TopP;
 use Openai\Exception\OpenAIClientException;
 use Openai\Image\ImageResponse;
 use Openai\Image\ResponseFormat;
@@ -42,7 +45,12 @@ final readonly class OpenAISDK
         ?FrequencyPenalty $frequencyPenalty = null,
         ?ChatTemperature $temperature = null,
         ?int $choices = null,
-        ?string $user = null
+        ?string $user = null,
+        ?PresencePenalty $presencePenalty = null,
+        ?TopP $topP = null,
+        ?int $maxCompletionTokens = null,
+        array|string|null $stop = null,
+        ?ReasoningEffort $reasoningEffort = null
     ): ChatCompletionResponse {
         $request = [
             'model' => $model->value,
@@ -68,6 +76,30 @@ final readonly class OpenAISDK
 
         if ($user !== null) {
             $request['user'] = $user;
+        }
+
+        if ($presencePenalty !== null) {
+            $request['presence_penalty'] = $presencePenalty->value;
+        }
+
+        if ($topP !== null) {
+            $request['top_p'] = $topP->value;
+        }
+
+        if ($maxCompletionTokens !== null) {
+            if ($maxCompletionTokens <= 0) {
+                throw new \InvalidArgumentException('maxCompletionTokens must be greater than 0.');
+            }
+
+            $request['max_completion_tokens'] = $maxCompletionTokens;
+        }
+
+        if ($stop !== null) {
+            $request['stop'] = $stop;
+        }
+
+        if ($reasoningEffort !== null) {
+            $request['reasoning_effort'] = $reasoningEffort->value;
         }
 
         $rawResponse = $this->client->postData(self::CHAT_COMPLETIONS_PATH, $request);

@@ -112,7 +112,7 @@ echo $response->choices[0]->message->content;
   "id": "chatcmpl-abc123",
   "object": "chat.completion",
   "created": 1728561000,
-  "model": "gpt-4o-mini",
+  "model": "gpt-4.1-mini",
   "choices": [
     {
       "index": 0,
@@ -173,7 +173,7 @@ $response = $sdk->createChatCompletion(
     new Messages(
         Message::fromUser('Summarize this in one paragraph: ...')
     ),
-    model: getenv('OPENAI_MODEL') ?: 'gpt-4o-mini'
+    model: getenv('OPENAI_MODEL') ?: 'gpt-4.1-mini'
 );
 ```
 
@@ -181,10 +181,31 @@ $response = $sdk->createChatCompletion(
 
 ```json
 {
-  "model": "gpt-4o-mini",
+  "model": "gpt-4.1-mini",
   "system_fingerprint": "fp_3a1bc...",
   "usage": {"prompt_tokens": 120, "completion_tokens": 72, "total_tokens": 192}
 }
+```
+
+### Chat Completions – Advanced options
+
+```php
+use OpenAI\Chat\PresencePenalty;
+use OpenAI\Chat\ReasoningEffort;
+use OpenAI\Chat\TopP;
+
+$response = $sdk->createChatCompletion(
+    messages: new Messages(
+        Message::fromSystem('You are a concise assistant.'),
+        Message::fromUser('Summarize this article in 5 bullet points.')
+    ),
+    model: Model::GPT_4_1,
+    presencePenalty: PresencePenalty::tryFrom(0.2),
+    topP: TopP::tryFrom(0.95),
+    maxCompletionTokens: 400,
+    stop: ['<END>'],
+    reasoningEffort: ReasoningEffort::MEDIUM,
+);
 ```
 
 ### Images
@@ -366,7 +387,7 @@ Workflow:
 Streaming API planned (`stream()` returning partial deltas).
 
 **Which models can I use?**
-Any available in your OpenAI account (e.g., `gpt-4o-mini`). Keep model names in ENV variables.
+Use values from `Openai\Model`, e.g. `gpt-5`, `gpt-4.1`, `gpt-4.1-mini`, `o3`, `o4-mini`, `gpt-4o`, `gpt-4o-mini`, `omni-moderation-latest`, `gpt-4o-mini-transcribe`.
 
 **Is it production-ready?**
 Yes for small/medium workloads. For heavy production, enable retry logic, monitoring, and pin a stable release.

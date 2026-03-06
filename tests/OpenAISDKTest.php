@@ -6,11 +6,15 @@ namespace Openai\Tests;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Openai\Chat\FinishReason;
 use Openai\Chat\Message;
+use Openai\Chat\PresencePenalty;
+use Openai\Chat\ReasoningEffort;
 use Openai\Chat\Messages;
 use Openai\Chat\Role;
+use Openai\Chat\TopP;
 use Openai\Exception\OpenAIClientException;
 use Openai\Model;
 use Openai\OpenAIHTTPClient;
@@ -48,6 +52,48 @@ class OpenAISDKTest extends TestCase
         self::assertEquals(1, $response->choices->count());
         self::assertEquals(FinishReason::STOP, $choice?->finishReason);
         self::assertEquals(Role::ASSISTANT, $choice?->message->role);
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldPassNewChatCompletionOptionsToRequest(): void
+    {
+        $container = [];
+        $history = Middleware::history($container);
+        $handlerStack = HandlerStack::create(
+            new MockHandler([
+                new Response(200, [], '{"id":"chatcmpl-123","object":"chat.completion","created":1698705824,"model":"gpt-5","choices":[{"index":0,"message":{"role":"assistant","content":"ok"},"finish_reason":"stop"}],"usage":{"prompt_tokens":1,"completion_tokens":1,"total_tokens":2}}'),
+            ])
+        );
+        $handlerStack->push($history);
+
+        $sut = new OpenAISDK(
+            new OpenAIHTTPClient(
+                apiKey: 'openai_api_key',
+                config: ['handler' => $handlerStack]
+            )
+        );
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $sut->createChatCompletion(
+            messages: new Messages(Message::fromUser('Hello')),
+            presencePenalty: PresencePenalty::tryFrom(0.3),
+            topP: TopP::tryFrom(0.9),
+            maxCompletionTokens: 256,
+            stop: ['END'],
+            reasoningEffort: ReasoningEffort::MEDIUM
+        );
+
+        self::assertCount(1, $container);
+        $payload = json_decode((string) $container[0]['request']->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        self::assertSame(0.3, $payload['presence_penalty']);
+        self::assertSame(0.9, $payload['top_p']);
+        self::assertSame(256, $payload['max_completion_tokens']);
+        self::assertSame(['END'], $payload['stop']);
+        self::assertSame('medium', $payload['reasoning_effort']);
     }
 
     /**
@@ -103,6 +149,17 @@ class OpenAISDKTest extends TestCase
         );
 
         $this->assertObjectHasProperty('images', $response);
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldParseNewModelPrefixes(): void
+    {
+        self::assertSame(Model::GPT_4_1, Model::tryFromModelString('gpt-4.1-2025-04-14'));
+        self::assertSame(Model::O3, Model::tryFromModelString('o3-2025-04-16'));
+        self::assertSame(Model::OMNI_MODERATION_LATEST, Model::tryFromModelString('omni-moderation-latest'));
     }
 
     /**
