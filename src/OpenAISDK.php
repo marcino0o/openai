@@ -29,6 +29,7 @@ final readonly class OpenAISDK
     private const string CHAT_COMPLETIONS_PATH = '/v1/chat/completions';
     private const string MODERATIONS_PATH = '/v1/moderations';
     private const string TRANSCRIPTIONS_PATH = '/v1/audio/transcriptions';
+    private const string TRANSLATIONS_PATH = '/v1/audio/translations';
     private const string IMAGES_GENERATIONS_PATH = '/v1/images/generations';
 
     public function __construct(
@@ -170,7 +171,7 @@ final readonly class OpenAISDK
         string $filePath,
         ?AudioTemperature $temperature = null,
         ?Prompt $prompt = null,
-        ?ResponseFormat $responseFormat = null
+        ?AudioResponseFormat $responseFormat = null
     ): TranscriptionResponse {
         $request = [
             RequestUtils::buildRequestPart('file', Utils::tryFopen($filePath, 'r')),
@@ -190,7 +191,7 @@ final readonly class OpenAISDK
         }
 
         $rawResponse = $this->client->postData(
-            self::TRANSCRIPTIONS_PATH,
+            self::TRANSLATIONS_PATH,
             $request,
             contentType: 'multipart'
         );

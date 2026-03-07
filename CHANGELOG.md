@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+### Bug Fixes
+
+* use the proper `/v1/audio/translations` endpoint for audio translations
+
+### Documentation
+
+* align README examples with current namespaces and SDK APIs
+
+### Tests
+
+* add integration coverage for audio translation request path
+
 ## [1.0.9](https://github.com/marcino0o/openai/compare/v1.0.8...v1.0.9) (2025-10-10)
 
 
