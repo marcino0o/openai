@@ -26,7 +26,7 @@ class Choices implements Iterator, Countable
      */
     public static function fromArray(array $data): self
     {
-        return new self(...array_map(static fn (array $choice): Choice => Choice::fromArray($choice), $data));
+        return new self(...array_map(Choice::fromArray(...), $data));
     }
 
     public function count(): int

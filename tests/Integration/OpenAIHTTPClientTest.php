@@ -25,7 +25,9 @@ class OpenAIHTTPClientTest extends TestCase
         $client = $this->createClientWithQueue(new Response(401, [], '{}'));
 
         $this->expectException(UnauthorizedException::class);
-        $client->postData('/v1/chat/completions', ['model' => 'gpt-5']);
+        $client->postData('/v1/chat/completions', [
+            'model' => 'gpt-5',
+        ]);
     }
 
     /**
@@ -36,7 +38,9 @@ class OpenAIHTTPClientTest extends TestCase
         $client = $this->createClientWithQueue(new Response(429, [], '{}'));
 
         $this->expectException(LimitExceededException::class);
-        $client->postData('/v1/chat/completions', ['model' => 'gpt-5']);
+        $client->postData('/v1/chat/completions', [
+            'model' => 'gpt-5',
+        ]);
     }
 
     /**
@@ -49,7 +53,9 @@ class OpenAIHTTPClientTest extends TestCase
         $client = $this->createClientWithQueue($connectException);
 
         $this->expectException(OpenAIClientException::class);
-        $client->postData('/v1/chat/completions', ['model' => 'gpt-5']);
+        $client->postData('/v1/chat/completions', [
+            'model' => 'gpt-5',
+        ]);
     }
 
     private function createClientWithQueue(mixed $result): OpenAIHTTPClient

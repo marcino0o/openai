@@ -8,12 +8,13 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 use Openai\Audio\AudioResponseFormat;
 use Openai\Chat\FinishReason;
 use Openai\Chat\Message;
+use Openai\Chat\Messages;
 use Openai\Chat\PresencePenalty;
 use Openai\Chat\ReasoningEffort;
-use Openai\Chat\Messages;
 use Openai\Chat\Role;
 use Openai\Chat\TopP;
 use Openai\Exception\OpenAIClientException;
@@ -61,6 +62,7 @@ class OpenAISDKTest extends TestCase
      */
     public function shouldPassNewChatCompletionOptionsToRequest(): void
     {
+        /** @var array<int, array{request: RequestInterface}> $container */
         $container = [];
         $history = Middleware::history($container);
         $handlerStack = HandlerStack::create(
@@ -73,7 +75,9 @@ class OpenAISDKTest extends TestCase
         $sut = new OpenAISDK(
             new OpenAIHTTPClient(
                 apiKey: 'openai_api_key',
-                config: ['handler' => $handlerStack]
+                config: [
+                    'handler' => $handlerStack,
+                ]
             )
         );
 
@@ -88,7 +92,11 @@ class OpenAISDKTest extends TestCase
         );
 
         self::assertCount(1, $container);
-        $payload = json_decode((string) $container[0]['request']->getBody(), true, 512, JSON_THROW_ON_ERROR);
+        $request = $container[0]['request'];
+        self::assertInstanceOf(RequestInterface::class, $request);
+
+        /** @var array{presence_penalty: float, top_p: float, max_completion_tokens: int, stop: list<string>, reasoning_effort: string} $payload */
+        $payload = json_decode((string) $request->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(0.3, $payload['presence_penalty']);
         self::assertSame(0.9, $payload['top_p']);
@@ -156,6 +164,7 @@ class OpenAISDKTest extends TestCase
      */
     public function shouldCreateTranslationWithExpectedMultipartPayload(): void
     {
+        /** @var array<int, array{request: RequestInterface}> $container */
         $container = [];
         $history = Middleware::history($container);
         $handlerStack = HandlerStack::create(
@@ -168,7 +177,9 @@ class OpenAISDKTest extends TestCase
         $sut = new OpenAISDK(
             new OpenAIHTTPClient(
                 apiKey: 'openai_api_key',
-                config: ['handler' => $handlerStack]
+                config: [
+                    'handler' => $handlerStack,
+                ]
             )
         );
 
@@ -180,7 +191,10 @@ class OpenAISDKTest extends TestCase
 
         self::assertSame('translated text', $response->text);
         self::assertCount(1, $container);
-        self::assertSame('/v1/audio/translations', $container[0]['request']->getUri()->getPath());
+
+        $request = $container[0]['request'];
+        self::assertInstanceOf(RequestInterface::class, $request);
+        self::assertSame('/v1/audio/translations', $request->getUri()->getPath());
     }
 
     /**
