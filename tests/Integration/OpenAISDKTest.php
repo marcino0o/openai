@@ -11,9 +11,9 @@ use GuzzleHttp\Psr7\Response;
 use Openai\Audio\AudioResponseFormat;
 use Openai\Chat\FinishReason;
 use Openai\Chat\Message;
+use Openai\Chat\Messages;
 use Openai\Chat\PresencePenalty;
 use Openai\Chat\ReasoningEffort;
-use Openai\Chat\Messages;
 use Openai\Chat\Role;
 use Openai\Chat\TopP;
 use Openai\Exception\OpenAIClientException;
@@ -73,7 +73,9 @@ class OpenAISDKTest extends TestCase
         $sut = new OpenAISDK(
             new OpenAIHTTPClient(
                 apiKey: 'openai_api_key',
-                config: ['handler' => $handlerStack]
+                config: [
+                    'handler' => $handlerStack,
+                ]
             )
         );
 
@@ -168,7 +170,9 @@ class OpenAISDKTest extends TestCase
         $sut = new OpenAISDK(
             new OpenAIHTTPClient(
                 apiKey: 'openai_api_key',
-                config: ['handler' => $handlerStack]
+                config: [
+                    'handler' => $handlerStack,
+                ]
             )
         );
 
