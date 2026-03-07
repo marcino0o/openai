@@ -25,15 +25,16 @@ A lightweight, modern PHP (≥ 8.4) wrapper for the OpenAI API. Focused on simpl
     * [Model Selection](#model-selection)
     * [Images](#images)
     * [Audio](#audio)
-    * [Embeddings](#embeddings)
     * [Moderations](#moderations)
 * [Supported Endpoints](#supported-endpoints)
 * [Error Handling](#error-handling)
 * [Retry / Timeout / Streaming](#retry--timeout--streaming)
 * [Logging & Telemetry](#logging--telemetry)
+* [Testing](#testing)
 * [Contributing](#contributing)
 * [Versioning](#versioning)
 * [License](#license)
+* [FAQ](#faq)
 
 ---
 
@@ -64,10 +65,10 @@ export OPENAI_API_KEY="sk-..."
 <?php
 require 'vendor/autoload.php';
 
-use OpenAI\OpenAISDK;
-use OpenAI\OpenAIHTTPClient;
-use OpenAI\Messages;
-use OpenAI\Message;
+use Openai\OpenAISDK;
+use Openai\OpenAIHTTPClient;
+use Openai\Chat\Messages;
+use Openai\Chat\Message;
 
 $sdk = new OpenAISDK(
     new OpenAIHTTPClient(apiKey: getenv('OPENAI_API_KEY'))
@@ -102,7 +103,8 @@ $response = $sdk->createChatCompletion(
         Message::fromUser('Explain recursion in a short PHP example.')
     )
 );
-echo $response->choices[0]->message->content;
+
+echo $response->choices->current()?->message->content;
 ```
 
 **Example response (truncated):**
@@ -129,15 +131,6 @@ echo $response->choices[0]->message->content;
     "total_tokens": 83
   }
 }
-```
-
-```php
-$response = $sdk->createChatCompletion(
-    new Messages(
-        Message::fromUser('Explain recursion in a short PHP example.')
-    )
-);
-echo $response->choices[0]->message->content;
 ```
 
 ### System Role / Messages
@@ -173,7 +166,7 @@ $response = $sdk->createChatCompletion(
     new Messages(
         Message::fromUser('Summarize this in one paragraph: ...')
     ),
-    model: getenv('OPENAI_MODEL') ?: 'gpt-4.1-mini'
+    model: \Openai\Model::tryFromModelString(getenv('OPENAI_MODEL') ?: 'gpt-4.1-mini')
 );
 ```
 
@@ -190,16 +183,16 @@ $response = $sdk->createChatCompletion(
 ### Chat Completions – Advanced options
 
 ```php
-use OpenAI\Chat\PresencePenalty;
-use OpenAI\Chat\ReasoningEffort;
-use OpenAI\Chat\TopP;
+use Openai\Chat\PresencePenalty;
+use Openai\Chat\ReasoningEffort;
+use Openai\Chat\TopP;
 
 $response = $sdk->createChatCompletion(
     messages: new Messages(
         Message::fromSystem('You are a concise assistant.'),
         Message::fromUser('Summarize this article in 5 bullet points.')
     ),
-    model: Model::GPT_4_1,
+    model: \Openai\Model::GPT_4_1,
     presencePenalty: PresencePenalty::tryFrom(0.2),
     topP: TopP::tryFrom(0.95),
     maxCompletionTokens: 400,
@@ -211,8 +204,8 @@ $response = $sdk->createChatCompletion(
 ### Images
 
 ```php
-$response = $sdk->createImage(prompt: 'A futuristic city skyline at sunset');
-file_put_contents('city.png', base64_decode($response->data[0]->b64_json));
+$response = $sdk->createImage(prompt: \Openai\Prompt::fromString('A futuristic city skyline at sunset'));
+file_put_contents('city.png', base64_decode($response->images[0]->base64));
 ```
 
 **Example response (truncated):**
@@ -231,7 +224,7 @@ file_put_contents('city.png', base64_decode($response->data[0]->b64_json));
 ### Audio
 
 ```php
-$response = $sdk->transcribeAudio(file: 'speech.mp3', model: 'gpt-4o-mini-transcribe');
+$response = $sdk->createAudioTranscription(filePath: 'speech.mp3');
 echo $response->text;
 ```
 
@@ -249,35 +242,11 @@ echo $response->text;
 }
 ```
 
-### Embeddings
-
-```php
-$response = $sdk->createEmbedding(input: 'The quick brown fox jumps over the lazy dog.');
-print_r($response->data[0]->embedding);
-```
-
-**Example response (truncated):**
-
-```json
-{
-  "object": "list",
-  "data": [
-    {
-      "object": "embedding",
-      "index": 0,
-      "embedding": [0.0123, -0.0456, 0.0789, ...]
-    }
-  ],
-  "model": "text-embedding-3-small",
-  "usage": {"prompt_tokens": 9, "total_tokens": 9}
-}
-```
-
 ### Moderations
 
 ```php
 $response = $sdk->createModeration(input: 'This text contains hate speech.');
-if ($response->results[0]->flagged) {
+if ($response->moderationResult->flagged) {
     echo 'Content flagged for moderation';
 }
 ```
@@ -315,7 +284,7 @@ if ($response->results[0]->flagged) {
 | Chat Completions               | ✅ Stable        | Primary focus          |
 | Images (generation/edit)       | ⚠️ Experimental | API subject to change  |
 | Audio (STT/TTS)                | ⚠️ Experimental | Partial support        |
-| Embeddings                     | ⚙️ Beta         | Core logic implemented |
+| Embeddings                     | ⏳ Planned       | Not yet implemented    |
 | Moderations                    | ⚙️ Beta         | Basic support present  |
 | Files / Fine-tuning            | ⏳ Planned       | Not yet implemented    |
 | Assistants / Realtime / Agents | ⏳ Planned       | Upcoming               |
@@ -348,6 +317,21 @@ try {
 
 * Optional PSR-3 logger.
 * Mask sensitive info (e.g., API keys, full prompts).
+
+---
+
+## Testing
+
+Run quality checks locally:
+
+```bash
+composer test:unit
+composer test:integration
+composer cs
+composer stan
+```
+
+> Note: Integration tests use mocked HTTP responses and do not require a live OpenAI API request.
 
 ---
 

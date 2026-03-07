@@ -8,6 +8,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use Openai\Audio\AudioResponseFormat;
 use Openai\Chat\FinishReason;
 use Openai\Chat\Message;
 use Openai\Chat\PresencePenalty;
@@ -96,6 +97,22 @@ class OpenAISDKTest extends TestCase
         self::assertSame('medium', $payload['reasoning_effort']);
     }
 
+
+    /**
+     * @test
+     */
+    public function shouldRejectNonPositiveMaxCompletionTokens(): void
+    {
+        $sut = new OpenAISDK(
+            $this->createClientMockWithResponse('{"id":"chatcmpl-123","object":"chat.completion","created":1698705824,"model":"gpt-5","choices":[],"usage":{"prompt_tokens":1,"completion_tokens":1,"total_tokens":2}}')
+        );
+
+        $this->expectException(\InvalidArgumentException::class);
+        $sut->createChatCompletion(
+            messages: new Messages(Message::fromUser('Hello')),
+            maxCompletionTokens: 0,
+        );
+    }
     /**
      * @test
      */
@@ -126,12 +143,44 @@ class OpenAISDKTest extends TestCase
         );
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $response = $sut->createAudioTranscription(__DIR__ . '/fake-0.mp3');
+        $response = $sut->createAudioTranscription(dirname(__DIR__) . '/fake-0.mp3');
 
         $this->assertEquals(
             'looking with a half-fantastic curiosity to see whether the tender grass of early spring',
             $response->text
         );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateTranslationWithExpectedMultipartPayload(): void
+    {
+        $container = [];
+        $history = Middleware::history($container);
+        $handlerStack = HandlerStack::create(
+            new MockHandler([
+                new Response(200, [], '{"text":"translated text"}'),
+            ])
+        );
+        $handlerStack->push($history);
+
+        $sut = new OpenAISDK(
+            new OpenAIHTTPClient(
+                apiKey: 'openai_api_key',
+                config: ['handler' => $handlerStack]
+            )
+        );
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $response = $sut->createAudioTranslation(
+            filePath: dirname(__DIR__) . '/fake-0.mp3',
+            responseFormat: AudioResponseFormat::JSON,
+        );
+
+        self::assertSame('translated text', $response->text);
+        self::assertCount(1, $container);
+        self::assertSame('/v1/audio/translations', $container[0]['request']->getUri()->getPath());
     }
 
     /**
