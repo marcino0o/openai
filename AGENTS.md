@@ -5,6 +5,7 @@
 - Keep commit subjects short and imperative to support automated changelog generation and release tagging.
 
 ## Quality gate before commit
-- Before creating any commit, run at least one relevant quality check (tests and/or linters) for the changes you made.
-- Prefer project scripts from `composer.json` (for example: `composer cs`, `composer stan`, `composer test`, `composer test:unit`, `composer test:integration`).
-- If a check cannot be executed due to environment limitations, document that clearly in your final report.
+- Before creating any commit, run all available quality checks that are part of the project pipeline (prefer `composer check:all` when available).
+- At minimum, run each relevant script from `composer.json` used by pipelines (for example: `composer cs`, `composer rector`, `composer stan`, `composer test`, `composer test:unit`, `composer test:integration`).
+- Do not skip tests: always run the full available automated test scope before commit.
+- If any check cannot be executed due to environment limitations, document that clearly in your final report.

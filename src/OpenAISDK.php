@@ -38,6 +38,7 @@ final readonly class OpenAISDK
     }
 
     /**
+     * @param list<string>|string|null $stop
      * @throws OpenAIClientException
      */
     public function createChatCompletion(
