@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/marcino0o/openai/compare/v1.1.0...v1.1.1) (2026-03-07)
+
+
+### Bug Fixes
+
+* correct audio translation endpoint and refresh docs ([4ea1d60](https://github.com/marcino0o/openai/commit/4ea1d605c2b88ee35847b9e1dfbcf77906bb49be))
+
 ## [Unreleased]
 
 ### Bug Fixes
