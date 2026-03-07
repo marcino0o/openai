@@ -13,6 +13,12 @@
 ### Tests
 
 * add integration coverage for audio translation request path
+# [1.1.0](https://github.com/marcino0o/openai/compare/v1.0.9...v1.1.0) (2026-03-07)
+
+
+### Features
+
+* add unit/integration tests and split QA pipeline ([db57efb](https://github.com/marcino0o/openai/commit/db57efb42f50d6ce5208823806f3b9f9335b96c2))
 
 ## [1.0.9](https://github.com/marcino0o/openai/compare/v1.0.8...v1.0.9) (2025-10-10)
 
